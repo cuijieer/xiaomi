@@ -1,0 +1,188 @@
+	<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>小米帐号 - 登录</title>
+	<link rel="stylesheet" href="./css/gonggong.css">
+	<link rel="stylesheet" href="./css/denglu.css"><link rel="icon" href="./image/favicon.ico" type="image/x-icon"/>
+	<script src="js/jquery-1.8.3.min.js"></script>
+	<script src="./js/ajax3.0-min.js"></script>
+</head>
+<body>
+<div class="zhengti">
+	<div id="container-1">
+		<a class="dianji" href="javascript:void(0)"></a>
+		<div class="logos">
+			<div class="logo">
+				<a href="./index.html"><img src="./image/logo.png" alt=""></a>
+			</div>
+			<div class="xiaomizh">
+				<h4>小米账号登录</h4>
+			</div>
+		</div>
+		<div class="forms">
+			<form action="" id="formss" method="get">
+				<input class="user" type="text" name="username" value="" placeholder="邮箱/手机号码/小米帐号" autocomplete="off">
+				<input class="pass" type="password" name="pass" value="" placeholder="密码">
+				<div class="tishixinxi">
+					<i></i>
+					<span>请输入账号</span>
+				</div>
+				<div class="tishixinxi">
+					<i></i>
+					<span>用户名或密码不正确</span>
+				</div>
+				<div class="tishixinxi">
+					<i></i>
+					<span>请输入密码</span>
+				</div>
+				<div class="tishixinxi">
+					<i></i>
+					<span>用户名没有被注册</span>
+				</div>
+				<input class="sub" type="submit" name="submit" value="立即登陆">
+				<div class="qita">
+					<fieldset>
+						<legend align="center">其他方式登录</legend>
+					</fieldset>
+				</div>
+				<div class="denglu-icon">
+					<a href="">
+						<i></i>
+					</a>
+					<a href="">
+						<i></i>
+					</a>
+					<a href="">
+						<i></i>
+					</a>
+				</div>
+			</form>
+		</div>
+		<div class="wangji">
+			<a href="">注册小米账号</a>
+			<span>|</span>
+			<a href="">忘记密码?</a>
+		</div>
+		<div class="footer">
+			<div class="jianti">
+				<ul>
+					<li><a href="">简体</a>|</li>
+					<li><a href="">繁体</a>|</li>
+					<li><a href="">English</a>|</li>
+					<li><a href="">常见问题</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<div class="banquan">
+				<p>
+					小米公司版权所有-京ICP备10046444-
+					<img src="./image/ghs.png" alt="">
+					京公网安备11010802020134号-京ICP证110507号
+				</p>
+			</div>
+		</div>
+	</div>
+	
+	<div id="container-2">
+		<a href="javascript:void(0)"><span></span></a>
+		<div class="saoma">
+			<h3>小米帐号扫码登录</h3>
+			<p>请使用最新版MIUI中“我的小米”进行扫码登录</p>
+			<div class="erweima">
+				<img src="./image/erweima.png" alt="">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+//	鼠标经过logo
+	$(".logo").mouseover(function(){
+		$(this).animate({
+			scrollLeft:"48"
+		},400)
+	}).mouseout(function(){
+		$(".logo:animated").stop()
+		$(this).animate({
+			scrollLeft:"0"
+		},400)
+	})
+//	鼠标经过二维码
+	$("#container-1>.dianji").mouseover(function(){
+		$(this).css("opacity","1")
+	}).mouseout(function(){
+		$(this).css("opacity",".3")
+	})
+//	鼠标点击二维码
+	$("#container-1>.dianji").click(function(){
+		$("#container-2").slideDown(400);
+	})
+	$("#container-2>a").click(function(){
+		$("#container-2").slideUp(400)
+	})
+	
+//	表单验证
+	var reg1 = /^[\w\u4e00-\u9fa5\@\.]+$/;
+	var reg2 = /^[A-Za-z0-9_-]{8,16}$/;
+	var formss = document.getElementById("formss")
+	var user = document.getElementsByTagName("input")[0]
+	var pass = document.getElementsByTagName("input")[1]
+	var sub = document.getElementsByTagName("input")[2]
+	var tishi1 = document.getElementsByClassName("tishixinxi")[1]
+	var tishi2 = document.getElementsByClassName("tishixinxi")[0]
+	var tishi3 = document.getElementsByClassName("tishixinxi")[2]
+	var tishi4 = document.getElementsByClassName("tishixinxi")[3]
+	var userBl = false
+	var passBl = false
+	user.onfocus = function(){
+		tishi4.style.display="none"
+	}
+	pass.onfocus = function(){
+		tishi4.style.display="none"
+	}
+	user.onblur = function(){
+		if(reg1.test(user.value)){
+			tishi1.style.display="none"
+			tishi2.style.display="none"
+			userBl = true
+		}else if(user.value == ""){
+			tishi2.style.display="block"
+			userBl = false
+		}else{
+			tishi1.style.display="block"
+			userBl = false
+		}
+	}
+	pass.onblur = function(){
+		if(reg2.test(pass.value)){
+			tishi1.style.display="none"
+			tishi2.style.display="none"
+			tishi3.style.display="none"
+			passBl = true
+		}else if(pass.value == ""){
+			tishi3.style.display="block"
+			passBl = false
+		}else{
+			tishi1.style.display="block"
+			passBl = false
+		}
+	}
+	formss.onsubmit = function(){
+		var value1 = user.value;
+		var value2 = pass.value;
+		Ajax().get("1.php?username=" + value1,function(msg){
+			if(msg == 0){
+				window.location.href = ("index.html")
+				tishi4.style.display="none"
+			}else{
+				tishi4.style.display="block"
+				return false
+			}
+			
+		})
+		return false
+	}
+</script>
+</body>
+</html>
